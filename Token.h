@@ -22,7 +22,7 @@ public:
 	bool isRight() { return myOp == ')'; }
     void setValue( double d) {myValue = d; }
     void setOp(char d) { myOp = d; }
-	int precedence(char op);
+	int precedence(const Token& op);
     void print();
     
 private:

@@ -31,13 +31,13 @@ int main()
 	getline(cin, dataLine);
 
 	//replacers
-	replacePlus(dataLine);
+	//replacePlus(dataLine);
 	replacer(dataLine);
 
 	/// required to work with Apache as a CGIscript & speak http ///
 	cout << "Content-type: text/html" << endl << endl << endl;
 
-	cout << " URL Encoded text is: ";
+	cout << "TYPED: ";
 	cout << dataLine << endl;
 
 	queue<Token> infixQueue, postfixQueue;
@@ -53,7 +53,7 @@ int main()
 	Token t, u;
 	// prints infix
 	cout << endl;
-	cout << "infix: ";
+	cout << "INFIX: ";
 	while (!infixQueue.empty())
 	{
 		t = infixQueue.front();
@@ -64,7 +64,7 @@ int main()
 
 	// prints postfix
 	cout << endl;
-	cout << "postfix: ";
+	cout << "POSTFIX: ";
 	while (!postfixQueue.empty())
 	{
 		u = postfixQueue.front();
@@ -79,11 +79,13 @@ int main()
 void postfix(queue<Token> infixQueue, queue<Token>& postfixQueue, stack<Token> postfixStack)
 {
 	////////////////////////
-	///FINSIH THE POSTFIX///
+	///FINSH THE POSTFIX///
 	////////////////////////
 	Token left('('), right(')'), t, r;
 
+	// pushs left paranthesis onto stack
 	postfixStack.push(left);
+	// pushes right paran onto end of queue
 	infixQueue.push(right);
 
 	while (!postfixStack.empty())
@@ -101,21 +103,32 @@ void postfix(queue<Token> infixQueue, queue<Token>& postfixQueue, stack<Token> p
 		}
 		else if (t.isRight())
 		{
-			while (!t.isLeft() && !t.isRight())
+			while (!t.isLeft())
 			{
 				r = postfixStack.top();
-				postfixQueue.push(r);
 				postfixStack.pop();
+				postfixQueue.push(r);
 			}
 		}
 		else if (t.isOp())
 		{
 			Token op = postfixStack.top();
-			postfixQueue.push(op);
-			postfixStack.pop();
+			op.setToOp();
+
+			while (op.precedence(op) >= t.precedence(t))
+			{
+				postfixQueue.push(op);
+				
+				if (!postfixStack.empty())
+				{
+					postfixStack.pop();
+				}
+				else return;
+
+			}
+			postfixStack.push(t);
 		}
 	}
-
 }
 
 void infix(const string& str, queue<Token>& infixQueue)

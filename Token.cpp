@@ -18,14 +18,10 @@ void Token::print()
     }
 }
 
-int Token::precedence(char op)
+int Token::precedence(const Token& op)
 {
-	switch (op)
-	{
-	case '(': return 4;
-	case '^': return 3;
-	case '*': case '/': return 2;
-	case '+': case '-': return 1;
-	default: return 0;
-	}
+	if (op.myValue == '^') return 3;
+	else if (op.myValue == '*' || op.myValue == '/') return 2;
+	else if (op.myValue == '+'  || op.myValue == '-') return 1;
+	else return 0;
 }
