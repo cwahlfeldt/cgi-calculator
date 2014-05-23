@@ -20,9 +20,10 @@ public:
     bool isVal() { return myType == value; }
 	bool isLeft() { return myOp == '('; }
 	bool isRight() { return myOp == ')'; }
+	bool isNull() { return myOp == 'N'; }
     void setValue( double d) {myValue = d; }
     void setOp(char d) { myOp = d; }
-	int precedence(const Token& op);
+	int precedence(Token op);
     void print();
     
 private:

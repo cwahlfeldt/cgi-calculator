@@ -14,14 +14,14 @@ void Token::print()
 			cout << myValue << endl;
             break;
         default:
-            cout << "NULL" << endl;
+            cout << 'N' << endl;
     }
 }
 
-int Token::precedence(const Token& op)
+int Token::precedence(Token op)
 {
-	if (op.myValue == '^') return 3;
-	else if (op.myValue == '*' || op.myValue == '/') return 2;
-	else if (op.myValue == '+'  || op.myValue == '-') return 1;
+	if (op.myOp == '^') return 3;
+	else if (op.myOp == '*' || op.myOp == '/') return 2;
+	else if (op.myOp == '+' || op.myOp == '-') return 1;
 	else return 0;
 }

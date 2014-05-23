@@ -70,7 +70,8 @@ int main()
 		u = postfixQueue.front();
 		postfixQueue.pop();
 
-		u.print();
+		if (!u.isNull()) u.print();
+		else break;
 	}
 
 	return 0;
@@ -103,12 +104,14 @@ void postfix(queue<Token> infixQueue, queue<Token>& postfixQueue, stack<Token> p
 		}
 		else if (t.isRight())
 		{
-			while (!t.isLeft())
+			do 
 			{
 				r = postfixStack.top();
 				postfixStack.pop();
-				postfixQueue.push(r);
-			}
+				if (!r.isLeft() || !r.isRight()) postfixQueue.push(r);
+					
+			
+			} while (!r.isLeft());
 		}
 		else if (t.isOp())
 		{
@@ -123,8 +126,7 @@ void postfix(queue<Token> infixQueue, queue<Token>& postfixQueue, stack<Token> p
 				{
 					postfixStack.pop();
 				}
-				else return;
-
+ 				else break;
 			}
 			postfixStack.push(t);
 		}
